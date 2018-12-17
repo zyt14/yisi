@@ -125,8 +125,9 @@ class MyBaseController extends Controller
 
     protected function baseDel($Table, $TableName, $id)
     {
-        $r = $Table->find($id)->delete();
+        $r = $Table->find($id);
         if ($r) {
+            $r->delete();
             $this->success($TableName . '删除成功');
         } else {
             $this->error($TableName . '删除失败');
