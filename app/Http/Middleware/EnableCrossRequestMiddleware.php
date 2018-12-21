@@ -15,18 +15,16 @@ class EnableCrossRequestMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $response = $next($request);
-        $origin = $request->server('HTTP_ORIGIN') ? $request->server('HTTP_ORIGIN') : '';
-        $allow_origin = [
-            'http://localhost:5500',
+        header("Access-Control-Allow-Origin: *");
+
+        $headers = [
+            'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
+            'Access-Control-Allow-Headers'=> 'Content-Type, X-Auth-Token, Origin'
         ];
-        if (in_array($origin, $allow_origin)) {
-            $response->headers->add(['Access-Control-Allow-Origin' => $origin]);
-            $response->headers->add(['Access-Control-Allow-Headers' => 'Origin, Content-Type, Cookie,X-CSRF-TOKEN, Accept,Authorization']);
-            $response->headers->add(['Access-Control-Expose-Headers' => 'Authorization,authenticated']);
-            $response->headers->add(['Access-Control-Allow-Methods' => 'GET, POST, PATCH, PUT, OPTIONS']);
-            $response->headers->add(['Access-Control-Allow-Credentials' => 'true']);
-        }
+
+        $response = $next($request);
+        foreach($headers as $key => $value)
+            $response->header($key, $value);
         return $response;
     }
 }
