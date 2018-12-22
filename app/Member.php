@@ -14,7 +14,7 @@ class Member extends BaseModel
     protected $table = 'member';
 
     protected $fillable = [
-        'name',  'grade', 'major', 'phone', 'qq', 'group', 'state','photo'
+        'name',  'grade', 'major', 'phone', 'qq', 'group_id', 'state','photo'
         //姓名     年级      班级      手机号    qq   ·组别      状态     照片
     ];
 

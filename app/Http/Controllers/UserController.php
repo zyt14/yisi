@@ -24,8 +24,9 @@ class UserController extends MyBaseController
         'major' => 'max:15',
         'phone' => 'required|regex:/^1[34578][0-9]{9}$/',
         'qq' => 'max:12',
-        'position' => 'required',
+        'position_id' => 'required',
         'introduction' => 'required',
+        'state' => 'required',
     ];
     //规则
     protected $messages = [
@@ -35,8 +36,9 @@ class UserController extends MyBaseController
         'phone.required' => '手机号必填',
         'phone.regex' => '手机号错误',
         'qq.max' => 'qq最大不能超过12个字符',
-        'position.required' => '职位必填',
+        'position_id.required' => '职位必填',
         'introduction.required'=>'个人介绍必填',
+        'state.required'=>'状态必填',
     ];
     //违反规则报错
 
@@ -53,6 +55,8 @@ class UserController extends MyBaseController
         $data['password']=null;
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->getUpLoadImg('photo');
+        }else{
+            $data['photo']="/s";
         }
         $this->check($data);
         $this->User->fill($data);

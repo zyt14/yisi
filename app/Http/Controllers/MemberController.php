@@ -22,7 +22,7 @@ class MemberController extends MyBaseController
         'major' => 'max:15',
         'phone' => 'required|regex:/^1[34578][0-9]{9}$/',
         'qq' => 'max:12',
-        'group' => 'required|max:10',
+        'group_id' => 'required',
         'state' => 'required',
 
     ];
@@ -34,8 +34,7 @@ class MemberController extends MyBaseController
         'phone.required' => '手机号必填',
         'phone.regex' => '手机号错误',
         'qq.max' => 'qq最大不能超过12个字符',
-        'group.required' => '组别必填',
-        'group.max' => '组别最大不能超过10个字符',
+        'group_id.required' => '组别必填',
         'state.required' => '状态必填',
     ];
 

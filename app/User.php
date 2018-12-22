@@ -14,8 +14,8 @@ class User extends Authenticatable
     protected $table = 'user';
 
     protected $fillable = [
-        'name', 'password', 'grade', 'major', 'phone', 'qq', 'position', 'introduction','photo'
-        //姓名    密码          年级      班级      手机号    qq   ·职位         个人介绍        照片
+        'name', 'password', 'grade', 'major', 'phone', 'qq', 'position_id', 'introduction','photo','state'
+        //姓名    密码          年级      班级      手机号    qq   ·职位         个人介绍        照片       状态
     ];
 
     protected $hidden = [
