@@ -11,7 +11,7 @@ namespace App;
 
 class Studio extends BaseModel
 {
-    protected $table = 'studio';
+    protected $table = 'studio';//工作室
 
     protected $fillable = [
         'content'

@@ -11,7 +11,7 @@ namespace App;
 
 class Group extends BaseModel
 {
-    protected $table = 'group';
+    protected $table = 'group';//组别
 
     protected $fillable = [
         'name'

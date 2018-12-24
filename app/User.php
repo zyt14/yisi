@@ -11,7 +11,7 @@ class User extends Authenticatable
 
     use Notifiable;
 
-    protected $table = 'user';
+    protected $table = 'user';//大二用户
 
     protected $fillable = [
         'name', 'password', 'grade', 'major', 'phone', 'qq', 'position_id', 'introduction','photo','state'

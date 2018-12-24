@@ -11,7 +11,7 @@ namespace App;
 
 class Member extends BaseModel
 {
-    protected $table = 'member';
+    protected $table = 'member';//成员
 
     protected $fillable = [
         'name',  'grade', 'major', 'phone', 'qq', 'group_id', 'state','photo'

@@ -98,6 +98,8 @@ class MyBaseController extends Controller
         $data = $request->all();
         if ($request->hasFile($TableField)) {
             $data[$TableField] = $this->getUploadImg($TableField);
+        }else {
+            $data[$TableField] = "/";
         }
         $this->check($data);
         $Table->fill($data);

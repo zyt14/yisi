@@ -9,9 +9,9 @@
 namespace App;
 
 
-class Position extends BaseModel
+class Category extends BaseModel
 {
-    protected $table = 'position';//职位
+    protected $table = 'category';//分类
 
     protected $fillable = [
         'name'

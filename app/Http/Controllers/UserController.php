@@ -37,9 +37,10 @@ class UserController extends MyBaseController
         'phone.regex' => '手机号错误',
         'qq.max' => 'qq最大不能超过12个字符',
         'position_id.required' => '职位必填',
-        'introduction.required'=>'个人介绍必填',
-        'state.required'=>'状态必填',
+        'introduction.required' => '个人介绍必填',
+        'state.required' => '状态必填',
     ];
+
     //违反规则报错
 
     public function __construct(User $user, Request $request)
@@ -51,12 +52,13 @@ class UserController extends MyBaseController
     public function add(Request $request)
     {
         $data = $request->all();
-        $data['grade']=date('Y')-1;
-        $data['password']=null;
+        $data['grade'] = date('Y') - 1;
+        $data['password'] = null;
+        $data['state'] = 0;
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->getUpLoadImg('photo');
-        }else{
-            $data['photo']="/s";
+        } else {
+            $data['photo'] = "/";
         }
         $this->check($data);
         $this->User->fill($data);
@@ -73,14 +75,14 @@ class UserController extends MyBaseController
         $this->baseDel($this->User, '用户', $id);
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $date = $this->User->find($id);
         if (!$date) {
-            $this->error( '用户不存在');
+            $this->error('用户不存在');
         }
         $data = $request->all();
-        $data['password']=null;
+        $data['password'] = null;
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->getUpLoadImg('photo');
         }
@@ -90,7 +92,7 @@ class UserController extends MyBaseController
         if ($r) {
             $this->success('用户更新成功');
         } else {
-            $this->error( '用户更新失败');
+            $this->error('用户更新失败');
         }
     }
 
@@ -107,7 +109,7 @@ class UserController extends MyBaseController
     public function getListByGrade($grade)
     {
         $r = $this->User
-            ->where('grade',$grade)
+            ->where('grade', $grade)
             ->orderBy('id', 'desc')
             ->get();
         if ($r) {
@@ -116,5 +118,43 @@ class UserController extends MyBaseController
             $this->error('查询指定年级失败');
         }
     }
-    
+
+    public function getListByCurrent()
+    {
+        $r = $this->User
+            ->where('state', '1')
+            ->get();
+        if ($r) {
+            return $r;
+        } else {
+            $this->error('查询现任用户失败');
+        }
+    }
+
+    public function getListByRaise($id){
+        $r = $this->User
+            ->where('id', $id)
+            ->update([
+                'state' => 1
+            ]);
+        if ($r) {
+            $this->success('更改成现任成功');
+        } else {
+            $this->error('更改成现任失败');
+        }
+    }
+
+    public function getListByLower($id){
+        $r = $this->User
+            ->where('id', $id)
+            ->update([
+                'state' => 0
+            ]);
+        if ($r) {
+            $this->success('更改成历任成功');
+        } else {
+            $this->error('更改成历任失败');
+        }
+    }
+
 }

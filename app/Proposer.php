@@ -11,7 +11,7 @@ namespace App;
 
 class Proposer extends BaseModel
 {
-    protected $table = 'proposer';
+    protected $table = 'proposer';//申请人
 
     protected $fillable = [
         'name', 'grade','major', 'phone', 'qq', 'introduction'
