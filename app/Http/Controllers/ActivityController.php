@@ -47,7 +47,7 @@ class ActivityController extends MyBaseController
 
     public function update($id)
     {
-        $this->baseUpdate($this->Activity, "活动", $this->Request, $id);
+        $this->baseUpdateImg($this->Activity,"活动","photo", $this->Request,$id);
     }
 
     public function getList()

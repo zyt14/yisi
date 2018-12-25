@@ -34,4 +34,29 @@ class OrganizeController extends MyBaseController
         $this->Organize = $organize;
         $this->Request = $request;
     }
+
+    public function add()
+    {
+        $this->baseAddImg($this->Organize,"组",'photo',$this->Request);
+    }
+
+    public function del($id)
+    {
+        $this->baseDel($this->Organize, "组", $id);
+    }
+
+    public function update($id)
+    {
+        $this->baseUpdateImg($this->Organize,"组","photo", $this->Request,$id);
+    }
+
+    public function getList()
+    {
+        return $this->baseGetList($this->Organize, "组");
+    }
+
+    public function getListById($id)
+    {
+        return $this->baseGetListById($this->Organize, "组", $id);
+    }
 }

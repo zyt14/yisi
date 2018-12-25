@@ -36,4 +36,30 @@ class ArticleController extends MyBaseController
         $this->Article = $article;
         $this->Request = $request;
     }
+
+    public function add()
+    {
+        $this->baseAddImg($this->Article,"文章",'photo',$this->Request);
+    }
+
+    public function del($id)
+    {
+        $this->baseDel($this->Article, "文章", $id);
+    }
+
+    public function update($id)
+    {
+        $this->baseUpdateImg($this->Article,"文章","photo", $this->Request,$id);
+    }
+
+    public function getList()
+    {
+        return $this->baseGetList($this->Article, "文章");
+    }
+
+    public function getListById($id)
+    {
+        return $this->baseGetListById($this->Article, "文章", $id);
+    }
+    
 }

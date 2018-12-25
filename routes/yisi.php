@@ -53,3 +53,27 @@ Route::post('activity/del/{id}', 'ActivityController@del');
 Route::post('activity/update/{id}', 'ActivityController@update');
 Route::get('activity/list/{id}', 'ActivityController@getListById');
 Route::get('activity/list', 'ActivityController@getList');
+//文章
+Route::post('article/add', 'ArticleController@add');
+Route::post('article/del/{id}', 'ArticleController@del');
+Route::post('article/update/{id}', 'ArticleController@update');
+Route::get('article/list/{id}', 'ArticleController@getListById');
+Route::get('article/list', 'ArticleController@getList');
+//比赛
+Route::post('competition/add', 'CompetitionController@add');
+Route::post('competition/del/{id}', 'CompetitionController@del');
+Route::post('competition/update/{id}', 'CompetitionController@update');
+Route::get('competition/list/{id}', 'CompetitionController@getListById');
+Route::get('competition/list', 'CompetitionController@getList');
+//组
+Route::post('organize/add', 'OrganizeController@add');
+Route::post('organize/del/{id}', 'OrganizeController@del');
+Route::post('organize/update/{id}', 'OrganizeController@update');
+Route::get('organize/list/{id}', 'OrganizeController@getListById');
+Route::get('organize/list', 'OrganizeController@getList');
+//作品
+Route::post('production/add', 'ProductionController@add');
+Route::post('production/del/{id}', 'ProductionController@del');
+Route::post('production/update/{id}', 'ProductionController@update');
+Route::get('production/list/{id}', 'ProductionController@getListById');
+Route::get('production/list', 'ProductionController@getList');

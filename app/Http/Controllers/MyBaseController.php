@@ -111,7 +111,6 @@ class MyBaseController extends Controller
         }
     }
 
-
     protected function baseAdd($Table, $TableName, $request)
     {
         $data = $request->all();
@@ -133,6 +132,27 @@ class MyBaseController extends Controller
             $this->success($TableName . '删除成功');
         } else {
             $this->error($TableName . '删除失败');
+        }
+    }
+
+    protected function baseUpdateImg($Table, $TableName, $TableField,$request,$id){
+        $Table_id = $Table->find($id);
+        if (!$Table_id) {
+            $this->error($TableName . '不存在');
+        }
+        $data = $request->all();
+        if ($request->hasFile($TableField)) {
+            $data[$TableField] = $this->getUploadImg($TableField);
+        }else {
+            $data[$TableField] = "/";
+        }
+        $this->check($data);
+        $Table_id->fill($data);
+        $r = $Table_id->save();
+        if ($r) {
+            $this->success($TableName . '更新成功');
+        } else {
+            $this->error($TableName . '更新失败');
         }
     }
 

@@ -23,7 +23,7 @@ class PositionController extends MyBaseController
     ];
     //规则
     protected $messages = [
-        'name.required' => '组名必填',
+        'name.required' => '职称必填',
     ];
 
     //违反规则报错
