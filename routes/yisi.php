@@ -57,6 +57,7 @@ Route::post('article/del/{id}', 'ArticleController@del');
 Route::post('article/update/{id}', 'ArticleController@update');
 Route::get('article/list/{id}', 'ArticleController@getListById');
 Route::get('article/list', 'ArticleController@getList');
+Route::get('article/list/catgory/{category_id}', 'ArticleController@getListByCategoryId');
 //比赛
 Route::post('competition/add', 'CompetitionController@add');
 Route::post('competition/del/{id}', 'CompetitionController@del');

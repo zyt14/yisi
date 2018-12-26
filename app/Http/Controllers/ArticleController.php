@@ -61,5 +61,15 @@ class ArticleController extends MyBaseController
     {
         return $this->baseGetListById($this->Article, "文章", $id);
     }
+
+    public function getListByCategoryId($category_id)
+    {
+        $r=$this->Article->where('category_id',$category_id)->get();
+        if ($r) {
+            return $r;
+        } else {
+            return $this->error('查询指定分类id的文章失败');
+        }
+    }
     
 }
