@@ -128,12 +128,6 @@ class UserController extends MyBaseController
             $arrs[]=$arr;
         }
         return $arrs;
-//        for ($i=0;$i<sizeof($user);$i++){
-//            $id=$user[$i]['id'];
-//            $arr=$this->getListById($id);
-//            $arrs[]=$arr;
-//        }
-//        return $arrs;
     }
 
     public function getListByGrade($grade)

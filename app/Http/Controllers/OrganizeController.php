@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Group;
 use App\Organize;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,7 @@ class OrganizeController extends MyBaseController
 {
     public $Organize;
     public $Request;
+    public $Group;
 
     protected $rules = [
         'group_id' => 'required',
@@ -29,10 +31,11 @@ class OrganizeController extends MyBaseController
 
     //违反规则报错
 
-    public function __construct(Organize $organize, Request $request)
+    public function __construct(Organize $organize,Group $group ,Request $request)
     {
         $this->Organize = $organize;
         $this->Request = $request;
+        $this->Group=$group;
     }
 
     public function add()
@@ -52,11 +55,29 @@ class OrganizeController extends MyBaseController
 
     public function getList()
     {
-        return $this->baseGetList($this->Organize, "组");
+        $user=$this->Organize->orderBy('id','desc')->get();
+        for ($i=0;$i<sizeof($user);$i++){
+            $id=$user[$i]['id'];
+            $arr=$this->getListById($id);
+            $arrs[]=$arr;
+        }
+        return $arrs;
     }
 
     public function getListById($id)
     {
-        return $this->baseGetListById($this->Organize, "组", $id);
+        $r = $this->Organize->find($id);
+        $groupId=$r['group_id'];
+        $position=$this->Group->find($groupId);
+        if ($position!=null){
+            $r['group_id']=$position;
+        }else{
+            $r['group_id']=[];
+        }
+        if ($r) {
+            return $r;
+        } else {
+            return $this->error('查询指定id的组失败');
+        }
     }
 }
