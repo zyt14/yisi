@@ -45,7 +45,7 @@ class ProposerController extends MyBaseController
     public function add(Request $request)
     {
         $data = $request->all();
-        $data['grade']=date('Y')-1;
+        $data['grade']=date('Y');
         $this->check($data);
         $this->Proposer->fill($data);
         $r = $this->Proposer->save();
