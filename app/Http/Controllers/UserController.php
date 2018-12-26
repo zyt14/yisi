@@ -82,6 +82,9 @@ class UserController extends MyBaseController
             $this->error('用户不存在');
         }
         $data = $request->all();
+        if ($data['state']!=0&&$data['state']!=1){
+            $data['state']=$date['state'];
+        }
         $data['password'] = null;
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->getUpLoadImg('photo');
@@ -128,32 +131,6 @@ class UserController extends MyBaseController
             return $r;
         } else {
             $this->error('查询现任用户失败');
-        }
-    }
-
-    public function getListByRaise($id){
-        $r = $this->User
-            ->where('id', $id)
-            ->update([
-                'state' => 1
-            ]);
-        if ($r) {
-            $this->success('更改成现任成功');
-        } else {
-            $this->error('更改成现任失败');
-        }
-    }
-
-    public function getListByLower($id){
-        $r = $this->User
-            ->where('id', $id)
-            ->update([
-                'state' => 0
-            ]);
-        if ($r) {
-            $this->success('更改成历任成功');
-        } else {
-            $this->error('更改成历任失败');
         }
     }
 

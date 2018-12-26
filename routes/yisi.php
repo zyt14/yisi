@@ -7,8 +7,6 @@ Route::get('user/list/{id}', 'UserController@getListById');
 Route::get('user/list', 'UserController@getList');
 Route::get('user/list/grade/{grade}', 'UserController@getListByGrade');
 Route::get('user/list/position/current', 'UserController@getListByCurrent');//查询现任的
-Route::post('user/position/raise/{id}', 'UserController@getListByRaise');//职位改现任
-Route::post('user/position/lower/{id}', 'UserController@getListByLower');//职位改历任
 //成员
 Route::post('member/add', 'MemberController@add');
 Route::post('member/del/{id}', 'MemberController@del');
