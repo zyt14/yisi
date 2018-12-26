@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Position;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,7 @@ class UserController extends MyBaseController
 {
     public $User;
     public $Request;
+    public $Position;
 
 
     protected $rules = [
@@ -43,9 +45,10 @@ class UserController extends MyBaseController
 
     //违反规则报错
 
-    public function __construct(User $user, Request $request)
+    public function __construct(User $user,Position $position,Request $request)
     {
         $this->User = $user;
+        $this->Position = $position;
         $this->Request = $request;
     }
 
@@ -101,12 +104,36 @@ class UserController extends MyBaseController
 
     public function getListById($id)
     {
-        return $this->baseGetListById($this->User, '用户', $id);
+        $r = $this->User->find($id);
+        $positionId=$r['position_id'];
+        $position=$this->Position->find($positionId);
+        if ($position!=null){
+            $r['position_id']=$position;
+        }else{
+            $r['position_id']=[];
+        }
+        if ($r) {
+            return $r;
+        } else {
+            return $this->error('查询指定id的用户失败');
+        }
     }
 
     public function getList()
     {
-        return $this->baseGetList($this->User, '用户');
+        $user=$this->User->orderBy('id','desc')->get();
+        for ($i=0;$i<sizeof($user);$i++){
+            $id=$user[$i]['id'];
+            $arr=$this->getListById($id);
+            $arrs[]=$arr;
+        }
+        return $arrs;
+//        for ($i=0;$i<sizeof($user);$i++){
+//            $id=$user[$i]['id'];
+//            $arr=$this->getListById($id);
+//            $arrs[]=$arr;
+//        }
+//        return $arrs;
     }
 
     public function getListByGrade($grade)
