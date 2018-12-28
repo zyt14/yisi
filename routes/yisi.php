@@ -13,7 +13,7 @@ Route::post('member/del/{id}', 'MemberController@del');
 Route::post('member/update/{id}', 'MemberController@update');
 Route::get('member/list/{id}', 'MemberController@getListById');
 Route::get('member/list', 'MemberController@getList');
-Route::get('member/list/grade/{grade}', 'UserController@getListByGrade');
+Route::get('member/list/grade/{grade}', 'MemberController@getListByGrade');
 //申请人
 Route::post('proposer/add', 'ProposerController@add');
 Route::post('proposer/del/{id}', 'ProposerController@del');

@@ -62,20 +62,24 @@ class ProductionController extends MyBaseController
             $arr=$this->getListById($id);
             $arrs[]=$arr;
         }
-        return $arrs;
+        if (isset($arrs)){
+            return $arrs;
+        }else{
+            return $this->error("查询作品失败");
+        }
     }
 
     public function getListById($id)
     {
         $r = $this->Production->find($id);
-        $groupId=$r['group_id'];
-        $position=$this->Group->find($groupId);
-        if ($position!=null){
-            $r['group_id']=$position;
-        }else{
-            $r['group_id']=[];
-        }
         if ($r) {
+            $groupId=$r['group_id'];
+            $position=$this->Group->find($groupId);
+            if ($position!=null){
+                $r['group_id']=$position;
+            }else{
+                $r['group_id']=[];
+            }
             return $r;
         } else {
             return $this->error('查询指定id的作品失败');

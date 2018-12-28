@@ -10,12 +10,14 @@ namespace App\Http\Controllers;
 
 
 use App\Article;
+use App\Category;
 use Illuminate\Http\Request;
 
 class ArticleController extends MyBaseController
 {
     public $Article;
     public $Request;
+    public $Category;
 
     protected $rules = [
         'title' => 'required',
@@ -31,10 +33,11 @@ class ArticleController extends MyBaseController
     ];
     //违反规则报错
 
-    public function __construct(Article $article, Request $request)
+    public function __construct(Article $article,Category $category, Request $request)
     {
         $this->Article = $article;
         $this->Request = $request;
+        $this->Category=$category;
     }
 
     public function add()
@@ -54,12 +57,34 @@ class ArticleController extends MyBaseController
 
     public function getList()
     {
-        return $this->baseGetList($this->Article, "文章");
+        $art=$this->Article->orderBy('id','desc')->get();
+        for ($i=0;$i<sizeof($art);$i++){
+            $id=$art[$i]['id'];
+            $arr=$this->getListById($id);
+            $arrs[]=$arr;
+        }
+        if (isset($arrs)){
+            return $arrs;
+        }else{
+            return $this->error("查询文章失败");
+        }
     }
 
     public function getListById($id)
     {
-        return $this->baseGetListById($this->Article, "文章", $id);
+        $r = $this->Article->find($id);
+        if ($r) {
+            $categoryId=$r['category_id'];
+            $position=$this->Category->find($categoryId);
+            if ($position!=null){
+                $r['category_id']=$position;
+            }else{
+                $r['category_id']=[];
+            }
+            return $r;
+        } else {
+            return $this->error('查询指定id的文章失败');
+        }
     }
 
     public function getListByCategoryId($category_id)

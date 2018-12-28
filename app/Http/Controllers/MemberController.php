@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Group;
 use App\Member;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,7 @@ class MemberController extends MyBaseController
 {
     public $Member;
     public $Request;
+    public $Group;
 
     protected $rules = [
         'name' => 'required|max:24',
@@ -40,10 +42,11 @@ class MemberController extends MyBaseController
 
     //违反规则报错
 
-    public function __construct(Member $member, Request $request)
+    public function __construct(Member $member,Group $group, Request $request)
     {
         $this->Member = $member;
         $this->Request = $request;
+        $this->Group=$group;
     }
 
     public function add(Request $request)
@@ -90,12 +93,34 @@ class MemberController extends MyBaseController
 
     public function getListById($id)
     {
-        return $this->baseGetListById($this->Member, '成员', $id);
+        $r = $this->Member->find($id);
+        if ($r) {
+            $groupId=$r['group_id'];
+            $group=$this->Group->find($groupId);
+            if ($group!=null){
+                $r['group_id']=$group;
+            }else{
+                $r['group_id']=[];
+            }
+            return $r;
+        } else {
+            return $this->error('查询指定id的成员失败');
+        }
     }
 
     public function getList()
     {
-        return $this->baseGetList($this->Member, '成员');
+        $member=$this->Member->orderBy('id','desc')->get();
+        for ($i=0;$i<sizeof($member);$i++){
+            $id=$member[$i]['id'];
+            $arr=$this->getListById($id);
+            $arrs[]=$arr;
+        }
+        if (isset($arrs)){
+            return $arrs;
+        }else{
+            return $this->error("查询成员失败");
+        }
     }
 
     public function getListByGrade($grade)
@@ -104,8 +129,14 @@ class MemberController extends MyBaseController
             ->where('grade',$grade)
             ->orderBy('id', 'desc')
             ->get();
+        $r=json_decode(json_encode($r),true);
         if ($r) {
-            return $r;
+            for ($i=0;$i<sizeof($r);$i++){
+                $id=$r[$i]['id'];
+                $arr=$this->getListById($id);
+                $arrs[]=$arr;
+            }
+            return $arrs;
         } else {
             $this->error('查询指定年级失败');
         }

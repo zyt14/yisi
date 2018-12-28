@@ -105,14 +105,14 @@ class UserController extends MyBaseController
     public function getListById($id)
     {
         $r = $this->User->find($id);
-        $positionId=$r['position_id'];
-        $position=$this->Position->find($positionId);
-        if ($position!=null){
-            $r['position_id']=$position;
-        }else{
-            $r['position_id']=[];
-        }
         if ($r) {
+            $positionId=$r['position_id'];
+            $position=$this->Position->find($positionId);
+            if ($position!=null){
+                $r['position_id']=$position;
+            }else{
+                $r['position_id']=[];
+            }
             return $r;
         } else {
             return $this->error('查询指定id的用户失败');
@@ -127,7 +127,11 @@ class UserController extends MyBaseController
             $arr=$this->getListById($id);
             $arrs[]=$arr;
         }
-        return $arrs;
+        if (isset($arrs)){
+            return $arrs;
+        }else{
+            return $this->error("查询用户失败");
+        }
     }
 
     public function getListByGrade($grade)
@@ -136,8 +140,14 @@ class UserController extends MyBaseController
             ->where('grade', $grade)
             ->orderBy('id', 'desc')
             ->get();
+        $r=json_decode(json_encode($r),true);
         if ($r) {
-            return $r;
+            for ($i=0;$i<sizeof($r);$i++){
+                $id=$r[$i]['id'];
+                $arr=$this->getListById($id);
+                $arrs[]=$arr;
+            }
+            return $arrs;
         } else {
             $this->error('查询指定年级失败');
         }
@@ -149,7 +159,12 @@ class UserController extends MyBaseController
             ->where('state', '1')
             ->get();
         if ($r) {
-            return $r;
+            for ($i=0;$i<sizeof($r);$i++){
+                $id=$r[$i]['id'];
+                $arr=$this->getListById($id);
+                $arrs[]=$arr;
+            }
+            return $arrs;
         } else {
             $this->error('查询现任用户失败');
         }
