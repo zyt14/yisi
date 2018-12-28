@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Group;
 use App\Production;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,7 @@ class ProductionController extends MyBaseController
 {
     public $Production;
     public $Request;
+    public $Group;
 
     protected $rules = [
         'name' => 'required',
@@ -30,10 +32,11 @@ class ProductionController extends MyBaseController
 
     //违反规则报错
 
-    public function __construct(Production $production, Request $request)
+    public function __construct(Production $production,Group $group, Request $request)
     {
         $this->Production = $production;
         $this->Request = $request;
+        $this->Group=$group;
     }
 
     public function add()
@@ -53,11 +56,29 @@ class ProductionController extends MyBaseController
 
     public function getList()
     {
-        return $this->baseGetList($this->Production, "作品");
+        $user=$this->Production->orderBy('id','desc')->get();
+        for ($i=0;$i<sizeof($user);$i++){
+            $id=$user[$i]['id'];
+            $arr=$this->getListById($id);
+            $arrs[]=$arr;
+        }
+        return $arrs;
     }
 
     public function getListById($id)
     {
-        return $this->baseGetListById($this->Production, "作品", $id);
+        $r = $this->Production->find($id);
+        $groupId=$r['group_id'];
+        $position=$this->Group->find($groupId);
+        if ($position!=null){
+            $r['group_id']=$position;
+        }else{
+            $r['group_id']=[];
+        }
+        if ($r) {
+            return $r;
+        } else {
+            return $this->error('查询指定id的作品失败');
+        }
     }
 }
