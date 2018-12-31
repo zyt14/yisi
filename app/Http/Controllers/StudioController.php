@@ -19,11 +19,13 @@ class StudioController extends MyBaseController
 
     protected $rules = [
         'content' => 'required',
+        'name' => 'required',
 
     ];
     //规则
     protected $messages = [
         'content.required' => '内容必填',
+        'name.required' => '内容必填',
     ];
 
     //违反规则报错

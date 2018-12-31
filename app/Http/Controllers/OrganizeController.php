@@ -73,11 +73,32 @@ class OrganizeController extends MyBaseController
         $r = $this->Organize->find($id);
         if ($r) {
             $groupId=$r['group_id'];
-            $position=$this->Group->find($groupId);
-            if ($position!=null){
-                $r['group_id']=$position;
+            $group=$this->Group->find($groupId);
+            if ($group!=null){
+                $r['group_id']=$group;
             }else{
                 $r['group_id']=[];
+            }
+            return $r;
+        } else {
+            return $this->error('查询指定id的组失败');
+        }
+    }
+
+    public function getListByGroupId($id)
+    {
+        $r = $this->Organize
+            ->where('group_id',$id)
+            ->get();
+        if ($r) {
+            for ($i=0;$i<sizeof($r);$i++){
+                $groupId=$r[$i]['group_id'];
+                $group=$this->Group->find($groupId);
+                if ($group!=null){
+                    $r[$i]['group_id']=$group;
+                }else{
+                    $r[$i]['group_id']=[];
+                }
             }
             return $r;
         } else {

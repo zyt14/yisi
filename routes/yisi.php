@@ -7,6 +7,7 @@ Route::get('user/list/{id}', 'UserController@getListById');
 Route::get('user/list', 'UserController@getList');
 Route::get('user/list/grade/{grade}', 'UserController@getListByGrade');
 Route::get('user/list/position/current', 'UserController@getListByCurrent');//查询现任的
+Route::get('user/list/position/successive', 'UserController@getListBySuccessive');//查询历任的
 //成员
 Route::post('member/add', 'MemberController@add');
 Route::post('member/del/{id}', 'MemberController@del');
@@ -70,9 +71,16 @@ Route::post('organize/del/{id}', 'OrganizeController@del');
 Route::post('organize/update/{id}', 'OrganizeController@update');
 Route::get('organize/list/{id}', 'OrganizeController@getListById');
 Route::get('organize/list', 'OrganizeController@getList');
+Route::get('organize/list/group/{id}', 'OrganizeController@getListByGroupId');
 //作品
 Route::post('production/add', 'ProductionController@add');
 Route::post('production/del/{id}', 'ProductionController@del');
 Route::post('production/update/{id}', 'ProductionController@update');
 Route::get('production/list/{id}', 'ProductionController@getListById');
 Route::get('production/list', 'ProductionController@getList');
+//指导老师
+Route::post('adviser/add', 'AdviserController@add');
+Route::post('adviser/del/{id}', 'AdviserController@del');
+Route::post('adviser/update/{id}', 'AdviserController@update');
+Route::get('adviser/list/{id}', 'AdviserController@getListById');
+Route::get('adviser/list', 'AdviserController@getList');

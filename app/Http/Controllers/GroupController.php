@@ -19,11 +19,12 @@ class GroupController extends MyBaseController
 
     protected $rules = [
         'name' => 'required',
-
+        'english_name' => 'required',
     ];
     //规则
     protected $messages = [
         'name.required' => '组名必填',
+        'english_name.required' => '组名必填',
     ];
 
     //违反规则报错

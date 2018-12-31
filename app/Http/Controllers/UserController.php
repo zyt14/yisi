@@ -170,4 +170,21 @@ class UserController extends MyBaseController
         }
     }
 
+    public function getListBySuccessive()
+    {
+        $r = $this->User
+            ->where('state', '0')
+            ->get();
+        if ($r) {
+            for ($i=0;$i<sizeof($r);$i++){
+                $id=$r[$i]['id'];
+                $arr=$this->getListById($id);
+                $arrs[]=$arr;
+            }
+            return $arrs;
+        } else {
+            $this->error('查询历任用户失败');
+        }
+    }
+
 }
