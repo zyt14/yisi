@@ -147,7 +147,11 @@ class UserController extends MyBaseController
                 $arr=$this->getListById($id);
                 $arrs[]=$arr;
             }
-            return $arrs;
+            if (isset($arrs)){
+                return $arrs;
+            }else{
+                return $this->error("查询没有数据");
+            }
         } else {
             $this->error('查询指定年级失败');
         }
@@ -164,7 +168,11 @@ class UserController extends MyBaseController
                 $arr=$this->getListById($id);
                 $arrs[]=$arr;
             }
-            return $arrs;
+            if (isset($arrs)){
+                return $arrs;
+            }else{
+                return $this->error("查询没有数据");
+            }
         } else {
             $this->error('查询现任用户失败');
         }
@@ -181,7 +189,11 @@ class UserController extends MyBaseController
                 $arr=$this->getListById($id);
                 $arrs[]=$arr;
             }
-            return $arrs;
+            if (isset($arrs)){
+                return $arrs;
+            }else{
+                return $this->error("查询没有数据");
+            }
         } else {
             $this->error('查询历任用户失败');
         }
