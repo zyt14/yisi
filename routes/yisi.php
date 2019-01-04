@@ -59,6 +59,8 @@ Route::post('article/update/{id}', 'ArticleController@update');
 Route::get('article/list/{id}', 'ArticleController@getListById');
 Route::get('article/list', 'ArticleController@getList');
 Route::get('article/list/catgory/{category_id}', 'ArticleController@getListByCategoryId');
+Route::get('article/list_page', 'ArticleController@getListPage');
+Route::get('article/list_page/catgory/{category_id}', 'ArticleController@getListPageByCategoryId');
 //比赛
 Route::post('competition/add', 'CompetitionController@add');
 Route::post('competition/del/{id}', 'CompetitionController@del');
@@ -84,3 +86,5 @@ Route::post('adviser/del/{id}', 'AdviserController@del');
 Route::post('adviser/update/{id}', 'AdviserController@update');
 Route::get('adviser/list/{id}', 'AdviserController@getListById');
 Route::get('adviser/list', 'AdviserController@getList');
+//超级管理员
+//Route::post('admin/add', 'AdminController@generateToken');

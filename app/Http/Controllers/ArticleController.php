@@ -96,5 +96,47 @@ class ArticleController extends MyBaseController
             return $this->error('查询指定分类id的文章失败');
         }
     }
+
+    public function pageData($data,$length){
+        $pageLength=0;$page=0;
+        for ($i=0;$i<count($data);$i++){
+            if ($pageLength!=$length){
+                $pageLength++;
+                $arr[$page][]=$data[$i];
+            }else{
+                $pageLength=0;
+                $page++;
+                $i--;
+            }
+        }
+        return $arr;
+    }
+
+    public function getListPage()
+    {
+        $art=$this->Article->orderBy('id','desc')->get();
+        for ($i=0;$i<sizeof($art);$i++){
+            $id=$art[$i]['id'];
+            $arr=$this->getListById($id);
+            $arrs[]=$arr;
+        }
+        if (isset($arrs)){
+            $arrs=$this->pageData($arrs,3);
+            return $arrs;
+        }else{
+            return $this->error("查询文章失败");
+        }
+    }
+
+    public function getListPageByCategoryId($category_id)
+    {
+        $r=$this->Article->where('category_id',$category_id)->get();
+        if ($r) {
+            $r=$this->pageData($r,5);
+            return $r;
+        } else {
+            return $this->error('查询指定分类id的文章失败');
+        }
+    }
     
 }

@@ -18,13 +18,15 @@ class CompetitionController extends MyBaseController
     public $Request;
 
     protected $rules = [
-        'time' => 'required',
+        'start_time' => 'required',
+        'end_time' => 'required',
         'content' => 'required',
     ];
     //规则
 
     protected $messages = [
-        'time.required' => '时间必填',
+        'start_time.required' => '开始时间必填',
+        'end_time.required' => '结束时间必填',
         'content.required' => '内容必填',
     ];
     //违反规则报错

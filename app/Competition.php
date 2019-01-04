@@ -14,7 +14,7 @@ class Competition extends BaseModel
     protected $table = 'competition';//比赛
 
     protected $fillable = [
-        'content','time','photo'
+        'content','start_time','end_time','photo'
         //内容       时间    照片
     ];
 

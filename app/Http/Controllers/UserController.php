@@ -56,7 +56,6 @@ class UserController extends MyBaseController
     {
         $data = $request->all();
         $data['grade'] = date('Y') - 1;
-        $data['password'] = null;
         $data['state'] = 0;
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->getUpLoadImg('photo');
@@ -88,7 +87,6 @@ class UserController extends MyBaseController
         if ($data['state']!=0&&$data['state']!=1){
             $data['state']=$date['state'];
         }
-        $data['password'] = null;
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->getUpLoadImg('photo');
         }
