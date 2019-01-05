@@ -56,11 +56,23 @@ class CompetitionController extends MyBaseController
 
     public function getList()
     {
-        return $this->baseGetList($this->Competition, "比赛");
+        $data=$this->baseGetList($this->Competition, "比赛");
+        foreach ($data as $value){
+            $value['start_time']=$this->obtainDay( $value['start_time']);
+            $value['end_time']=$this->obtainDay( $value['end_time']);
+        }
+        return $data;
     }
 
     public function getListById($id)
     {
-        return $this->baseGetListById($this->Competition, "比赛", $id);
+        $data=$this->baseGetListById($this->Competition, "比赛", $id);
+        $data['start_time']=$this->obtainDay($data['start_time']);
+        $data['end_time']=$this->obtainDay($data['end_time']);
+        return $data;
+    }
+
+    public function obtainDay($data){
+       return substr($data, 0, 10);
     }
 }
