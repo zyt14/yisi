@@ -14,8 +14,8 @@ class Activity extends BaseModel
     protected $table = 'activity';//工作室活动
 
     protected $fillable = [
-        'group_id','photo','introduce'
-        //组别id      照片     活动介绍
+        'group_id','photo','introduce','state'
+        //组别id      照片     活动介绍      状态
     ];
 
     protected $hidden = [

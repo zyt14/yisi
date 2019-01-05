@@ -14,8 +14,8 @@ class Group extends BaseModel
     protected $table = 'group';//组别
 
     protected $fillable = [
-        'name'
-        //组名
+        'name','english_name','state'
+        //组名   英文名            状态
     ];
 
     protected $hidden = [

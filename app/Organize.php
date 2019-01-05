@@ -14,8 +14,8 @@ class Organize extends BaseModel
     protected $table = 'organize';//组
 
     protected $fillable = [
-        'group_id','photo','introduce'
-        //组别id      照片     介绍
+        'group_id','photo','introduce','state'
+        //组别id      照片     介绍          状态
     ];
 
     protected $hidden = [

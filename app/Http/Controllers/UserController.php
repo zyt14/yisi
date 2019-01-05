@@ -22,25 +22,23 @@ class UserController extends MyBaseController
 
 
     protected $rules = [
-        'name' => 'required|max:24',
+        'name' => 'required|max:20',
         'major' => 'max:15',
         'phone' => 'required|regex:/^1[34578][0-9]{9}$/',
-        'qq' => 'max:12',
+        'qq' => 'max:15',
         'position_id' => 'required',
         'introduction' => 'required',
-        'state' => 'required',
     ];
     //规则
     protected $messages = [
         'name.required' => '名称必填',
-        'name.max' => '名字最大不能超过24个字符',
+        'name.max' => '名字最大不能超过20个字符',
         'major.max' => '班级最大不能超过15个字符',
         'phone.required' => '手机号必填',
         'phone.regex' => '手机号错误',
-        'qq.max' => 'qq最大不能超过12个字符',
+        'qq.max' => 'qq最大不能超过15个字符',
         'position_id.required' => '职位必填',
         'introduction.required' => '个人介绍必填',
-        'state.required' => '状态必填',
     ];
 
     //违反规则报错

@@ -90,6 +90,7 @@ class ArticleController extends MyBaseController
     public function getListByCategoryId($category_id)
     {
         $r=$this->Article->where('category_id',$category_id)->get();
+        $r=json_decode(json_encode($r),true);
         if ($r) {
             return $r;
         } else {
@@ -121,7 +122,7 @@ class ArticleController extends MyBaseController
             $arrs[]=$arr;
         }
         if (isset($arrs)){
-            $arrs=$this->pageData($arrs,3);
+            $arrs=$this->pageData($arrs,5);
             return $arrs;
         }else{
             return $this->error("查询文章失败");
@@ -131,6 +132,7 @@ class ArticleController extends MyBaseController
     public function getListPageByCategoryId($category_id)
     {
         $r=$this->Article->where('category_id',$category_id)->get();
+        $r=json_decode(json_encode($r),true);
         if ($r) {
             $r=$this->pageData($r,5);
             return $r;

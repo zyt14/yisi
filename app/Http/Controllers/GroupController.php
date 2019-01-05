@@ -24,7 +24,7 @@ class GroupController extends MyBaseController
     //规则
     protected $messages = [
         'name.required' => '组名必填',
-        'english_name.required' => '组名必填',
+        'english_name.required' => '英文组名必填',
     ];
 
     //违反规则报错

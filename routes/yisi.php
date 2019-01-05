@@ -87,4 +87,5 @@ Route::post('adviser/update/{id}', 'AdviserController@update');
 Route::get('adviser/list/{id}', 'AdviserController@getListById');
 Route::get('adviser/list', 'AdviserController@getList');
 //超级管理员
-//Route::post('admin/add', 'AdminController@generateToken');
+Route::post('admin/registered', 'AdminController@registered');
+Route::post('admin/login', 'AdminController@login');

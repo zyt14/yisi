@@ -27,8 +27,8 @@ class AdviserController extends MyBaseController
     protected $messages = [
         'name.required' => '名称必填',
         'phone.required' => '手机必填',
-        'introduce.required' => '介绍必填',
         'phone.regex' => '手机号错误',
+        'introduce.required' => '介绍必填',
     ];
     //违反规则报错
 

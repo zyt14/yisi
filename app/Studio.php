@@ -14,8 +14,8 @@ class Studio extends BaseModel
     protected $table = 'studio';//工作室
 
     protected $fillable = [
-        'content'
-        //内容
+        'content','name','state'
+        //内容       名称    状态
     ];
 
     protected $hidden = [

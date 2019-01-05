@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Article;
 use App\Category;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,7 @@ class CategoryController extends MyBaseController
 {
     public $Category;
     public $Request;
+    public $Article;
 
     protected $rules = [
         'name' => 'required',
@@ -28,10 +30,11 @@ class CategoryController extends MyBaseController
 
     //违反规则报错
 
-    public function __construct(Category $category, Request $request)
+    public function __construct(Category $category,Article $article, Request $request)
     {
         $this->Category = $category;
         $this->Request = $request;
+        $this->Article=$article;
     }
 
     public function add()
@@ -41,7 +44,17 @@ class CategoryController extends MyBaseController
 
     public function del($id)
     {
-        $this->baseDel($this->Category, "分类", $id);
+        $cg=$this->Category->find($id);
+        if ($cg){
+            $this->Article->where('category_id',$id)->delete();
+            $cg->delete();
+            return "删除指定分类及文章成功";
+        }else{
+            return "无指定id的分类";
+        }
+
+        die();
+        $cg->delete();
     }
 
     public function update($id)
