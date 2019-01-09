@@ -42,6 +42,13 @@ class GroupController extends MyBaseController
 
     public function del($id)
     {
+        $r=$this->Group->find($id);
+        if ($r) {
+            $r->update(['state'=>'0']);
+            $this->success('组别删除成功');
+        } else {
+            $this->error( '组别删除失败');
+        }
         $this->baseDel($this->Group, "组别", $id);
     }
 
