@@ -19,7 +19,7 @@ class Admin extends BaseModel
     ];
 
     protected $hidden = [
-        'password','code'
+        'password'
     ];
 
     public $timestamps = false;

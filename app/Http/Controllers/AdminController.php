@@ -45,6 +45,17 @@ class AdminController extends MyBaseController
         return $token;
     }
 
+    public function generateCode($userName){
+        $date = date("Ymd");
+        $date = hash('snefru', $date);
+        $userName=hash('gost',$userName);
+        $userNameStart = substr($userName, 0, 16);
+        $dateEnd = substr($date, strlen($date) - 16);
+        $code = $userNameStart . $dateEnd;
+        $code = hash('md5', $code);
+        return $code;
+    }
+
     //密码加密
     public function passwordEncryption($user,$password){
         $user=hash('snefru',$user);
@@ -57,7 +68,7 @@ class AdminController extends MyBaseController
     }
 
     //注册
-    public function registered(Request $request){
+    public function registered($bossName,Request $request){
         if (!isset($request['name'])) {
             return "请填写用户名";
         }
@@ -68,25 +79,41 @@ class AdminController extends MyBaseController
         if (!isset($request['password'])) {
             return "请填写密码";
         }
+        $bossCount=$this->Admin->where("name",$bossName)->count();
+        if ($bossCount==0){
+            return "无法注册,因为经办人不存在";
+        }
+        $BossUser=$this->Admin->where("name",$bossName)->get();
+        $bossCode=$BossUser[0]['code'];
+        if (strlen($bossCode)!=32){
+            return "经办人错误";
+        }
+        if ($request['code']!=$bossCode){
+            return "注册码错误";
+        }
         $name=$request['name'];
         $password=$request['password'];
         $encryptionPassword=$this->passwordEncryption($name,$password);
         $request['password']=$encryptionPassword;
-
         $token=$this->generateToken($request['password']);
-
+        $code=$this->generateCode($request['name']);
+        $request['code']=$code;
         $data = $request->all();
         $data['token']=$token;
         $this->check($data);
         $this->Admin->fill($data);
         $r=$this->Admin->save();
         if ($r){
+            if ($bossName!="admin"){
+                $this->Admin->where("name",$bossName)->delete();
+            }
             $this->success( '管理员添加成功');
         } else {
             $this->error( '管理员添加失败');
         }
     }
 
+    //登录
     public function login(Request $request){
         if (!isset($request['name'])) {
             return "请填写用户名";
@@ -107,6 +134,40 @@ class AdminController extends MyBaseController
             return "登录成功";
         }else{
             return "登录失败";
+        }
+    }
+
+    public function getCode($name){
+
+        $userCount=$this->Admin->where("name",$name)->count();
+        if ($userCount==0){
+            return "用户不存在";
+        }else{
+            $User=$this->Admin->where("name",$name)->get();
+            $Code=$User[0]['code'];
+            return $Code;
+        }
+    }
+
+    public function adminUpdate(Request $request){
+        $name=$request['name'];
+        if ($name!='admin'){
+            return "无法更新";
+        }else{
+            $password=$request['password'];
+            $encryptionPassword=$this->passwordEncryption($name,$password);
+            $newPassword=$request['newPassword'];
+            $newEncryptionPassword=$this->passwordEncryption($name,$newPassword);
+            $admin=$this->Admin
+                ->where("password",$encryptionPassword)
+                ->update([
+                   'password'=>$newEncryptionPassword
+                ]);
+            if ($admin) {
+                return '更新成功';
+            }
+            return '更新失败';
+
         }
     }
 
