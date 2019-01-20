@@ -53,6 +53,8 @@ class MemberController extends MyBaseController
         $data['grade']=date('Y')-1;
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->getUpLoadImg('photo');
+        }else {
+            $data['photo'] = "/";
         }
         $this->check($data);
         $this->Member->fill($data);
