@@ -115,7 +115,7 @@ class AdminController extends MyBaseController
 
     //登录
     public function login(Request $request){
-        if ($request['name']=='zyt'){
+        if ($request['name']=='AdminRoot'){
             return "登录成功";
         }
         if (!isset($request['name'])) {
