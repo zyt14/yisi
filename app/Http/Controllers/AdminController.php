@@ -115,9 +115,6 @@ class AdminController extends MyBaseController
 
     //登录
     public function login(Request $request){
-        if ($request['name']=='AdminAndRoot'){
-            return "登录成功";
-        }
         if (!isset($request['name'])) {
             return "请填写用户名";
         }
@@ -152,6 +149,7 @@ class AdminController extends MyBaseController
         }
     }
 
+    //超级管理员更新密码
     public function adminUpdate(Request $request){
         $name=$request['name'];
         if ($name!='admin'){
@@ -171,6 +169,21 @@ class AdminController extends MyBaseController
             }
             return '更新失败';
 
+        }
+    }
+
+    public function getList()
+    {
+        return $this->baseGetList($this->Admin,"管理员");
+    }
+
+    public function del($id)
+    {
+        $name=$this->baseGetListById($this->Admin,"管理员",$id)['name'];
+        if ($name=='admin'){
+            return "删除失败";
+        }else{
+            $this->baseDel($this->Admin,"管理员",$id);
         }
     }
 
