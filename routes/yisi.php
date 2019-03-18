@@ -87,9 +87,10 @@ Route::post('adviser/update/{id}', 'AdviserController@update');
 Route::get('adviser/list/{id}', 'AdviserController@getListById');
 Route::get('adviser/list', 'AdviserController@getList');
 //管理员
-Route::post('admin/registered/{bossName}', 'AdminController@registered');
+Route::post('admin/forget','AdminController@forget');
 Route::post('admin/login', 'AdminController@login');
 Route::get('admin/{name}/get/registered', 'AdminController@getCode');
 Route::post('admin/update', 'AdminController@adminUpdate');
-Route::get('admin/list', 'AdminController@getList');
-Route::post('admin/del/{id}', 'AdminController@del');
+//Route::post('admin/registered/{bossName}', 'AdminController@registered');
+//Route::get('admin/list', 'AdminController@getList');
+//Route::post('admin/del/{id}', 'AdminController@del');

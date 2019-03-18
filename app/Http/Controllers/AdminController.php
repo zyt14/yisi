@@ -67,52 +67,6 @@ class AdminController extends MyBaseController
         return $password;
     }
 
-    //注册
-    public function registered($bossName,Request $request){
-        if (!isset($request['name'])) {
-            return "请填写用户名";
-        }
-        $usercount=$this->Admin->where("name",$request['name'])->count();
-        if ($usercount!=0){
-            return "用户已经存在";
-        }
-        if (!isset($request['password'])) {
-            return "请填写密码";
-        }
-        $bossCount=$this->Admin->where("name",$bossName)->count();
-        if ($bossCount==0){
-            return "无法注册,因为经办人不存在";
-        }
-        $BossUser=$this->Admin->where("name",$bossName)->get();
-        $bossCode=$BossUser[0]['code'];
-        if (strlen($bossCode)!=32){
-            return "经办人错误";
-        }
-        if ($request['code']!=$bossCode){
-            return "注册码错误";
-        }
-        $name=$request['name'];
-        $password=$request['password'];
-        $encryptionPassword=$this->passwordEncryption($name,$password);
-        $request['password']=$encryptionPassword;
-        $token=$this->generateToken($request['password']);
-        $code=$this->generateCode($request['name']);
-        $request['code']=$code;
-        $data = $request->all();
-        $data['token']=$token;
-        $this->check($data);
-        $this->Admin->fill($data);
-        $r=$this->Admin->save();
-        if ($r){
-            if ($bossName!="admin"){
-                $this->Admin->where("name",$bossName)->delete();
-            }
-            $this->success( '管理员添加成功');
-        } else {
-            $this->error( '管理员添加失败');
-        }
-    }
-
     //登录
     public function login(Request $request){
         if (!isset($request['name'])) {
@@ -172,6 +126,77 @@ class AdminController extends MyBaseController
         }
     }
 
+    public function forget(Request $request){
+        $name=$request['name'];
+        $code=$request['code'];
+        $password=$request['password'];
+        if ($name!='admin'){
+            return "用户名错误";
+        }
+        $user=$this->Admin->where("name",$request['name'])->get();
+        $userCode=$user[0]['code'];
+        if ($code!=$userCode){
+            return "Code错误";
+        }
+        $newPassword=$this->passwordEncryption($name,$password);
+        $admin=$this->Admin
+            ->where("name",$name)
+            ->update([
+                'password'=>$newPassword
+            ]);
+        if ($admin) {
+            return '更改成功';
+        }
+        return '更改失败';
+    }
+
+    /*
+    //注册
+    public function registered($bossName,Request $request){
+        if (!isset($request['name'])) {
+            return "请填写用户名";
+        }
+        $usercount=$this->Admin->where("name",$request['name'])->count();
+        if ($usercount!=0){
+            return "用户已经存在";
+        }
+        if (!isset($request['password'])) {
+            return "请填写密码";
+        }
+        $bossCount=$this->Admin->where("name",$bossName)->count();
+        if ($bossCount==0){
+            return "无法注册,因为经办人不存在";
+        }
+        $BossUser=$this->Admin->where("name",$bossName)->get();
+        $bossCode=$BossUser[0]['code'];
+        if (strlen($bossCode)!=32){
+            return "经办人错误";
+        }
+        if ($request['code']!=$bossCode){
+            return "注册码错误";
+        }
+        $name=$request['name'];
+        $password=$request['password'];
+        $encryptionPassword=$this->passwordEncryption($name,$password);
+        $request['password']=$encryptionPassword;
+        $token=$this->generateToken($request['password']);
+        $code=$this->generateCode($request['name']);
+        $request['code']=$code;
+        $data = $request->all();
+        $data['token']=$token;
+        $this->check($data);
+        $this->Admin->fill($data);
+        $r=$this->Admin->save();
+        if ($r){
+            if ($bossName!="admin"){
+                $this->Admin->where("name",$bossName)->delete();
+            }
+            $this->success( '管理员添加成功');
+        } else {
+            $this->error( '管理员添加失败');
+        }
+    }
+
     public function getList()
     {
         return $this->baseGetList($this->Admin,"管理员");
@@ -186,6 +211,6 @@ class AdminController extends MyBaseController
             $this->baseDel($this->Admin,"管理员",$id);
         }
     }
-
+    */
 
 }
