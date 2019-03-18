@@ -42,7 +42,7 @@ class ArticleController extends MyBaseController
 
     public function add()
     {
-        $this->baseAddImg($this->Article,"文章",'photo',$this->Request);
+        $this->baseAdd($this->Article,"文章",$this->Request);
     }
 
     public function del($id)
@@ -52,7 +52,7 @@ class ArticleController extends MyBaseController
 
     public function update($id)
     {
-        $this->baseUpdateImg($this->Article,"文章","photo", $this->Request,$id);
+        $this->baseUpdate($this->Article,"文章", $this->Request,$id);
     }
 
     public function getList()
@@ -140,5 +140,24 @@ class ArticleController extends MyBaseController
             return $this->error('查询指定分类id的文章失败');
         }
     }
-    
+
+    public function updateImg(Request $request,$id){
+        $date = $this->Article->find($id);
+        if (!$date) {
+            $this->error( '不存在');
+        }
+        $data = $request->all();
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $this->getUpLoadImg('photo');
+        }else{
+            $data['photo']='/';
+        }
+        $Img=$date->update([
+            'photo'=>$data['photo']
+        ]);
+        if ($Img) {
+            return '更改成功';
+        }
+        return '更改失败';
+    }
 }

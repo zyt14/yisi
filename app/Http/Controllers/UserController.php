@@ -55,11 +55,11 @@ class UserController extends MyBaseController
         $data = $request->all();
         $data['grade'] = date('Y') - 1;
         $data['state'] = 0;
-        if ($request->hasFile('photo')) {
-            $data['photo'] = $this->getUpLoadImg('photo');
-        } else {
-            $data['photo'] = "/";
-        }
+//        if ($request->hasFile('photo')) {
+//            $data['photo'] = $this->getUpLoadImg('photo');
+//        } else {
+//            $data['photo'] = "/";
+//        }
         $this->check($data);
         $this->User->fill($data);
         $r = $this->User->save();
@@ -85,9 +85,9 @@ class UserController extends MyBaseController
         if ($data['state']!=0&&$data['state']!=1){
             $data['state']=$date['state'];
         }
-        if ($request->hasFile('photo')) {
-            $data['photo'] = $this->getUpLoadImg('photo');
-        }
+//        if ($request->hasFile('photo')) {
+//            $data['photo'] = $this->getUpLoadImg('photo');
+//        }
         $this->check($data);
         $date->fill($data);
         $r = $date->save();
@@ -193,6 +193,26 @@ class UserController extends MyBaseController
         } else {
             $this->error('查询历任用户失败');
         }
+    }
+
+    public function updateImg(Request $request,$id){
+        $date = $this->User->find($id);
+        if (!$date) {
+            $this->error( '不存在');
+        }
+        $data = $request->all();
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $this->getUpLoadImg('photo');
+        }else{
+            $data['photo']='/';
+        }
+        $Img=$date->update([
+            'photo'=>$data['photo']
+        ]);
+        if ($Img) {
+            return '更改成功';
+        }
+        return '更改失败';
     }
 
 }

@@ -40,7 +40,7 @@ class AdviserController extends MyBaseController
 
     public function add()
     {
-        $this->baseAddImg($this->Adviser,"指导老师",'photo',$this->Request);
+        $this->baseAdd($this->Adviser,"指导老师",$this->Request);
     }
 
     public function del($id)
@@ -50,7 +50,7 @@ class AdviserController extends MyBaseController
 
     public function update($id)
     {
-        $this->baseUpdateImg($this->Adviser,"指导老师","photo", $this->Request,$id);
+        $this->baseUpdate($this->Adviser,"指导老师", $this->Request,$id);
     }
 
     public function getList()
@@ -61,5 +61,25 @@ class AdviserController extends MyBaseController
     public function getListById($id)
     {
         return $this->baseGetListById($this->Adviser, "指导老师", $id);
+    }
+
+    public function updateImg(Request $request,$id){
+        $date = $this->Adviser->find($id);
+        if (!$date) {
+            $this->error( '不存在');
+        }
+        $data = $request->all();
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $this->getUpLoadImg('photo');
+        }else{
+            $data['photo']='/';
+        }
+        $Img=$date->update([
+            'photo'=>$data['photo']
+        ]);
+        if ($Img) {
+            return '更改成功';
+        }
+        return '更改失败';
     }
 }

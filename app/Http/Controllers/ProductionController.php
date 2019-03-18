@@ -41,7 +41,7 @@ class ProductionController extends MyBaseController
 
     public function add()
     {
-        $this->baseAddImg($this->Production,"作品",'photo',$this->Request);
+        $this->baseAdd($this->Production,"作品",$this->Request);
     }
 
     public function del($id)
@@ -51,7 +51,7 @@ class ProductionController extends MyBaseController
 
     public function update($id)
     {
-        $this->baseUpdateImg($this->Production,"作品","photo", $this->Request,$id);
+        $this->baseUpdate($this->Production,"作品", $this->Request,$id);
     }
 
     public function getList()
@@ -84,5 +84,25 @@ class ProductionController extends MyBaseController
         } else {
             return $this->error('查询指定id的作品失败');
         }
+    }
+
+    public function updateImg(Request $request,$id){
+        $date = $this->Production->find($id);
+        if (!$date) {
+            $this->error( '不存在');
+        }
+        $data = $request->all();
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $this->getUpLoadImg('photo');
+        }else{
+            $data['photo']='/';
+        }
+        $Img=$date->update([
+            'photo'=>$data['photo']
+        ]);
+        if ($Img) {
+            return '更改成功';
+        }
+        return '更改失败';
     }
 }

@@ -94,3 +94,12 @@ Route::post('admin/update', 'AdminController@adminUpdate');
 //Route::post('admin/registered/{bossName}', 'AdminController@registered');
 //Route::get('admin/list', 'AdminController@getList');
 //Route::post('admin/del/{id}', 'AdminController@del');
+
+Route::post('activity/img/{id}', 'ActivityController@updateImg');
+Route::post('article/img/{id}', 'ArticleController@updateImg');
+Route::post('adviser/img/{id}', 'AdviserController@updateImg');
+Route::post('competition/img/{id}', 'CompetitionController@updateImg');
+Route::post('member/img/{id}', 'MemberController@updateImg');
+Route::post('organize/img/{id}', 'OrganizeController@updateImg');
+Route::post('production/img/{id}', 'ProductionController@updateImg');
+Route::post('user/img/{id}', 'UserController@updateImg');
