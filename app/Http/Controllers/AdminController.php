@@ -150,7 +150,7 @@ class AdminController extends MyBaseController
         return '更改失败';
     }
 
-    /*
+
     //注册
     public function registered($bossName,Request $request){
         if (!isset($request['name'])) {
@@ -211,6 +211,6 @@ class AdminController extends MyBaseController
             $this->baseDel($this->Admin,"管理员",$id);
         }
     }
-    */
+
 
 }
