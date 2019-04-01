@@ -19,7 +19,8 @@ class EnableCrossRequestMiddleware
 
         $headers = [
             'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
-            'Access-Control-Allow-Headers'=> 'Content-Type, X-Auth-Token, Origin'
+            'Access-Control-Allow-Headers'=> 'Content-Type, X-Auth-Token, Origin',
+            'Access-Control-Allow-Origin'=>'*'//图片跨域？
         ];
 
         $response = $next($request);
