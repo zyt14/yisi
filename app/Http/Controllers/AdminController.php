@@ -18,13 +18,13 @@ class AdminController extends MyBaseController
 
     //码code要生成
     protected $rules = [
-        'name' => 'required',
+        'username' => 'required',
         'password' => 'required',
     ];
     //规则
 
     protected $messages = [
-        'name.required' => '名称必填',
+        'username.required' => '名称必填',
         'password.required' => '密码必填',
     ];
     //违反规则报错
@@ -69,21 +69,21 @@ class AdminController extends MyBaseController
 
     //登录
     public function login(Request $request){
-        if (!isset($request['name'])) {
+        if (!isset($request['username'])) {
             return "请填写用户名";
         }
-        $usercount=$this->Admin->where("name",$request['name'])->count();
+        $usercount=$this->Admin->where("username",$request['username'])->count();
         if ($usercount==0){
             return "用户不存在";
         }
         if (!isset($request['password'])) {
             return "请填写密码";
         }
-        $name=$request['name'];
+        $name=$request['username'];
         $password=$request['password'];
         $encryptionPassword=$this->passwordEncryption($name,$password);
         $request['password']=$encryptionPassword;
-        $admin=$this->Admin->where("name",$request['name'])->get();
+        $admin=$this->Admin->where("username",$request['username'])->get();
         if ($admin[0]['password']==$request['password']){
             return "登录成功";
         }else{
@@ -93,11 +93,11 @@ class AdminController extends MyBaseController
 
     public function getCode($name){
 
-        $userCount=$this->Admin->where("name",$name)->count();
+        $userCount=$this->Admin->where("username",$name)->count();
         if ($userCount==0){
             return "用户不存在";
         }else{
-            $User=$this->Admin->where("name",$name)->get();
+            $User=$this->Admin->where("username",$name)->get();
             $Code=$User[0]['code'];
             return $Code;
         }
@@ -105,7 +105,7 @@ class AdminController extends MyBaseController
 
     //超级管理员更新密码
     public function adminUpdate(Request $request){
-        $name=$request['name'];
+        $name=$request['username'];
         if ($name!='admin'){
             return "无法更新";
         }else{
@@ -127,20 +127,20 @@ class AdminController extends MyBaseController
     }
 
     public function forget(Request $request){
-        $name=$request['name'];
+        $name=$request['username'];
         $code=$request['code'];
         $password=$request['password'];
         if ($name!='admin'){
             return "用户名错误";
         }
-        $user=$this->Admin->where("name",$request['name'])->get();
+        $user=$this->Admin->where("username",$request['name'])->get();
         $userCode=$user[0]['code'];
         if ($code!=$userCode){
             return "Code错误";
         }
         $newPassword=$this->passwordEncryption($name,$password);
         $admin=$this->Admin
-            ->where("name",$name)
+            ->where("username",$name)
             ->update([
                 'password'=>$newPassword
             ]);
@@ -153,21 +153,21 @@ class AdminController extends MyBaseController
 
     //注册
     public function registered($bossName,Request $request){
-        if (!isset($request['name'])) {
+        if (!isset($request['username'])) {
             return "请填写用户名";
         }
-        $usercount=$this->Admin->where("name",$request['name'])->count();
+        $usercount=$this->Admin->where("username",$request['username'])->count();
         if ($usercount!=0){
             return "用户已经存在";
         }
         if (!isset($request['password'])) {
             return "请填写密码";
         }
-        $bossCount=$this->Admin->where("name",$bossName)->count();
+        $bossCount=$this->Admin->where("username",$bossName)->count();
         if ($bossCount==0){
             return "无法注册,因为经办人不存在";
         }
-        $BossUser=$this->Admin->where("name",$bossName)->get();
+        $BossUser=$this->Admin->where("username",$bossName)->get();
         $bossCode=$BossUser[0]['code'];
         if (strlen($bossCode)!=32){
             return "经办人错误";
@@ -175,12 +175,12 @@ class AdminController extends MyBaseController
         if ($request['code']!=$bossCode){
             return "注册码错误";
         }
-        $name=$request['name'];
+        $name=$request['username'];
         $password=$request['password'];
         $encryptionPassword=$this->passwordEncryption($name,$password);
         $request['password']=$encryptionPassword;
         $token=$this->generateToken($request['password']);
-        $code=$this->generateCode($request['name']);
+        $code=$this->generateCode($request['username']);
         $request['code']=$code;
         $data = $request->all();
         $data['token']=$token;
@@ -189,7 +189,7 @@ class AdminController extends MyBaseController
         $r=$this->Admin->save();
         if ($r){
             if ($bossName!="admin"){
-                $this->Admin->where("name",$bossName)->delete();
+                $this->Admin->where("username",$bossName)->delete();
             }
             $this->success( '管理员添加成功');
         } else {
@@ -204,7 +204,7 @@ class AdminController extends MyBaseController
 
     public function del($id)
     {
-        $name=$this->baseGetListById($this->Admin,"管理员",$id)['name'];
+        $name=$this->baseGetListById($this->Admin,"管理员",$id)['username'];
         if ($name=='admin'){
             return "删除失败";
         }else{
